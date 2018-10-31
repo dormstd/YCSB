@@ -281,4 +281,4 @@ echo "$JAVA_HOME/bin/java $JAVA_OPTS -classpath $CLASSPATH $YCSB_CLASS $YCSB_COM
 # here.  So, the shellcheck error is disabled for this line.
 # shellcheck disable=SC2086
 "$JAVA_HOME/bin/java" $JAVA_OPTS -classpath "$CLASSPATH" $YCSB_CLASS $YCSB_COMMAND -db $BINDING_CLASS $YCSB_ARGS
-
+exit $?
