@@ -168,7 +168,7 @@ public class OrientDBClient extends DB {
     } catch (Exception e) {
       LOG.error("Could not initialize OrientDB connection pool for Loader: " + e.toString());
       e.printStackTrace();
-      //System.exit(1);
+      throw new DBException("Error while running the benchmark for ArangoDB");
     } finally {
       INIT_LOCK.unlock();
     }
@@ -180,20 +180,16 @@ public class OrientDBClient extends DB {
   }
 
   @Override
-  public void cleanup() throws DBException {
+  public void cleanup() {
     INIT_LOCK.lock();
-    try {
-      clientCounter--;
-      if (clientCounter == 0) {
-        databasePool.close();
-      }
-
-      databasePool = null;
-      initialized = false;
-    } finally {
-      INIT_LOCK.unlock();
+    clientCounter--;
+    if (clientCounter == 0) {
+      databasePool.close();
     }
 
+    databasePool = null;
+    initialized = false;
+    INIT_LOCK.unlock();
   }
 
   @Override
@@ -280,7 +276,7 @@ public class OrientDBClient extends DB {
 
   @Override
   public Status scan(String table, String startkey, int recordcount, Set<String> fields,
-      Vector<HashMap<String, ByteIterator>> result) {
+                     Vector<HashMap<String, ByteIterator>> result) {
 
     if (isRemote) {
       // Iterator methods needed for scanning are Unsupported for remote database connections.
