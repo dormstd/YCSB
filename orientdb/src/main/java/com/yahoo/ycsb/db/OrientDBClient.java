@@ -95,7 +95,7 @@ public class OrientDBClient extends DB {
 
         ODatabaseDocumentTx db = new ODatabaseDocumentTx(url);
 
-        if (db.getStorage().isRemote()) {
+        if (url.startsWith("remote:")) {
           isRemote = true;
         }
 
