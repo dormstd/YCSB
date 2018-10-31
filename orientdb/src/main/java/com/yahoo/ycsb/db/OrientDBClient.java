@@ -168,6 +168,7 @@ public class OrientDBClient extends DB {
     } catch (Exception e) {
       LOG.error("Could not initialize OrientDB connection pool for Loader: " + e.toString());
       e.printStackTrace();
+      //System.exit(1);
     } finally {
       INIT_LOCK.unlock();
     }
@@ -211,8 +212,8 @@ public class OrientDBClient extends DB {
       return Status.OK;
     } catch (Exception e) {
       e.printStackTrace();
+      return Status.ERROR;
     }
-    return Status.ERROR;
   }
 
   @Override
@@ -246,12 +247,12 @@ public class OrientDBClient extends DB {
             result.put(field, new StringByteIterator((String) document.field(field)));
           }
         }
-        return Status.OK;
       }
+      return Status.OK;
     } catch (Exception e) {
       e.printStackTrace();
+      return Status.ERROR;
     }
-    return Status.ERROR;
   }
 
   @Override
@@ -318,7 +319,7 @@ public class OrientDBClient extends DB {
       return Status.OK;
     } catch (Exception e) {
       e.printStackTrace();
+      return Status.ERROR;
     }
-    return Status.ERROR;
   }
 }
